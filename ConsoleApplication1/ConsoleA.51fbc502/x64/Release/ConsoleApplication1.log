@@ -1,0 +1,23 @@
+﻿  main.c
+E:\PO_PROJECT\ConsoleApplication1\main.c(52,23): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(94,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(224,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(309,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(310,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(310,71): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(311,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(335,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(396,25): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(412,28): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(413,24): warning C4090: функция: разные квалификаторы "const"
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_init_image_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_shutdown_ttf_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_init_ttf_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_destroy_font.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_shutdown_image_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_init_font_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_load_ttf_font.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_draw_text.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_shutdown_font_addon.
+main.obj : error LNK2001: неразрешенный внешний символ __imp_al_get_text_width.
+E:\PO_PROJECT\ConsoleApplication1\x64\Release\ConsoleApplication1.exe : fatal error LNK1120: неразрешенных внешних элементов: 10

@@ -1,0 +1,13 @@
+﻿  main.c
+E:\PO_PROJECT\ConsoleApplication1\main.c(52,23): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(94,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(224,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(309,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(310,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(310,71): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(311,30): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(335,27): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(396,25): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(412,28): warning C4090: функция: разные квалификаторы "const"
+E:\PO_PROJECT\ConsoleApplication1\main.c(413,24): warning C4090: функция: разные квалификаторы "const"
+  ConsoleApplication1.vcxproj -> E:\PO_PROJECT\ConsoleApplication1\x64\Debug\ConsoleApplication1.exe
