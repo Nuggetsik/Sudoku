@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,38 +7,48 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 
-#define FPS 60                          //ФПС 
-#define SIZE_FONT 60                    //Размер шрифта
+#define FPS 60                          //Р¤РџРЎ 
+#define SIZE_FONT 60                    //Р Р°Р·РјРµСЂ С€СЂРёС„С‚Р°
 
-int W = 720;                           //Ширина
-int H = 720;                           //Высота
+int W = 720;                           //РЁРёСЂРёРЅР°
+int H = 720;                           //Р’С‹СЃРѕС‚Р°
 
 
 const int resolution[3][2] = { {720, 720}, {900, 900}, {1000, 1000} };
-//Структура кнопки
+//РЎС‚СЂСѓРєС‚СѓСЂР° РєРЅРѕРїРєРё
 struct BUTTON
 {
-    char name_file[250];                                //Путь к изображению
-    float width_b;                                      //Ширина кнопки
-    float height_b;                                     //Высота кнопки
-    int x;                                              //Координаты
+    char name_file[250];                                //РџСѓС‚СЊ Рє РёР·РѕР±СЂР°Р¶РµРЅРёСЋ
+    float width_b;                                      //РЁРёСЂРёРЅР° РєРЅРѕРїРєРё
+    float height_b;                                     //Р’С‹СЃРѕС‚Р° РєРЅРѕРїРєРё
+    int x;                                              //РљРѕРѕСЂРґРёРЅР°С‚С‹
     int y;
-    void (*show)(char*, float, float, int, int);        //Поинтер на функцию (показать кнопку)
+    void (*show)(char*, float, float, int, int);        //РџРѕРёРЅС‚РµСЂ РЅР° С„СѓРЅРєС†РёСЋ (РїРѕРєР°Р·Р°С‚СЊ РєРЅРѕРїРєСѓ)
 };
 
 struct ICON
 {
-    char name_file[250];                                //Путь к изображению
-    float width_b;                                      //Ширина кнопки
-    float height_b;                                     //Высота кнопки
-    int x;                                              //Координаты
+    char name_file[250];                                //РџСѓС‚СЊ Рє РёР·РѕР±СЂР°Р¶РµРЅРёСЋ
+    float width_b;                                      //РЁРёСЂРёРЅР° РєРЅРѕРїРєРё
+    float height_b;                                     //Р’С‹СЃРѕС‚Р° РєРЅРѕРїРєРё
+    int x;                                              //РљРѕРѕСЂРґРёРЅР°С‚С‹
     int y;
-    void (*show)(char*, float, float, int, int);        //Поинтер на функцию
+    void (*show)(char*, float, float, int, int);        //РџРѕРёРЅС‚РµСЂ РЅР° С„СѓРЅРєС†РёСЋ
 };
 
+struct CELL
+{
+    char name_file[250];
+    float width;
+    float height;
+    int x;
+    int y;
+    void (*show)(char*, float, float, int, int);
+};
 
-//Функция для показа кнопки
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРєР°Р·Р° РєРЅРѕРїРєРё
 void show(char* name_file, float width_b, float height_b, int x, int y)
 {
     ALLEGRO_BITMAP* button = al_load_bitmap(name_file);
@@ -50,9 +60,36 @@ void show(char* name_file, float width_b, float height_b, int x, int y)
 
 void change_resolution(const ALLEGRO_DISPLAY* display, int width, int height) {
     al_resize_display(display, width, height);
-    // Дополнительные действия, если необходимо
+    // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РґРµР№СЃС‚РІРёСЏ, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ
 }
 
+
+void draw_area() {
+    ALLEGRO_COLOR gridColor = al_map_rgb(0, 0, 0); // Р¦РІРµС‚ СЃРµС‚РєРё
+    ALLEGRO_COLOR sectionColor = al_map_rgb(128, 128, 128); // Р¦РІРµС‚ СЃРµРєС†РёР№
+
+    // Р РёСЃСѓРµРј РІРµСЂС‚РёРєР°Р»СЊРЅС‹Рµ Р»РёРЅРёРё
+    for (int i = 0; i <= 9; ++i) {
+        int x = i * (W / 3.75); // РљРѕРѕСЂРґРёРЅР°С‚Р° X С‚РµРєСѓС‰РµР№ Р»РёРЅРёРё
+        if (i % 3 == 0) {
+            al_draw_line(x/3, 0, x/3, H/ 1.26, gridColor, 6.0); // Р РёСЃСѓРµРј Р±РѕР»РµРµ С‚РѕР»СЃС‚С‹Рµ Р»РёРЅРёРё РґР»СЏ СЃРµРєС†РёР№
+        }
+        else {
+            al_draw_line(x/3, 0, x/3, H / 1.26, sectionColor, 3.0);
+        }
+    }
+
+    // Р РёСЃСѓРµРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ Р»РёРЅРёРё
+    for (int i = 0; i <= 9; ++i) {
+        int y = i * (H / 3.8); // РљРѕРѕСЂРґРёРЅР°С‚Р° Y С‚РµРєСѓС‰РµР№ Р»РёРЅРёРё
+        if (i % 3 == 0) {
+            al_draw_line(0, y/3, W/ 1.25, y/3, gridColor, 6.0); // Р РёСЃСѓРµРј Р±РѕР»РµРµ С‚РѕР»СЃС‚С‹Рµ Р»РёРЅРёРё РґР»СЏ СЃРµРєС†РёР№
+        }
+        else {
+            al_draw_line(0, y/3, W/ 1.25, y/3, sectionColor, 3.0);
+        }
+    }
+}
 
 bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_queue, const  ALLEGRO_TIMER* timer, bool* finish)
 {
@@ -62,10 +99,10 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
     int width = W / 1.5;
     int height = H / 2.5;
 
-    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", 25, 0);      //Шрифт (при ошибке добавления шрифта возвращает -2)
+    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", 25, 0);      //РЁСЂРёС„С‚ (РїСЂРё РѕС€РёР±РєРµ РґРѕР±Р°РІР»РµРЅРёСЏ С€СЂРёС„С‚Р° РІРѕР·РІСЂР°С‰Р°РµС‚ -2)
     if (!font) return -2;
 
-    char text_setting[] = "Setting";                                                                 //Текст который выведится на экран (НАЗВАНИЕ ИГРЫ)
+    char text_setting[] = "Setting";                                                                 //РўРµРєСЃС‚ РєРѕС‚РѕСЂС‹Р№ РІС‹РІРµРґРёС‚СЃСЏ РЅР° СЌРєСЂР°РЅ (РќРђР—Р’РђРќРР• РР“Р Р«)
     int text_setting_width = al_get_text_width(font, text_setting);
     char text_resolution[] = "Resolution window ";
     char text_resolution_num[10];
@@ -89,11 +126,11 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
     bool open_setting = true;
     while (open_setting)
     {
-        ALLEGRO_EVENT event;            //Переменная хранящее наше событие, то что мы делаем
+        ALLEGRO_EVENT event;            //РџРµСЂРµРјРµРЅРЅР°СЏ С…СЂР°РЅСЏС‰РµРµ РЅР°С€Рµ СЃРѕР±С‹С‚РёРµ, С‚Рѕ С‡С‚Рѕ РјС‹ РґРµР»Р°РµРј
 
         al_wait_for_event(event_queue, &event);
 
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)                  //проверка на закрытие окна
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)                  //РїСЂРѕРІРµСЂРєР° РЅР° Р·Р°РєСЂС‹С‚РёРµ РѕРєРЅР°
         {
             open_setting = false;
             *finish = true;
@@ -101,14 +138,14 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
           
         }
 
-        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)              //Проверка на отпускания кнопки мыши
+        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)              //РџСЂРѕРІРµСЂРєР° РЅР° РѕС‚РїСѓСЃРєР°РЅРёСЏ РєРЅРѕРїРєРё РјС‹С€Рё
         {
-            if (event.mouse.button & 1)                                                     //нажатие ЛКМ (1 - ЛКМ, 2 - ПКМ, 3 - колесико)
+            if (event.mouse.button & 1)                                                     //РЅР°Р¶Р°С‚РёРµ Р›РљРњ (1 - Р›РљРњ, 2 - РџРљРњ, 3 - РєРѕР»РµСЃРёРєРѕ)
             {
-                int x = event.mouse.x;                              //Получения координаты мыши
+                int x = event.mouse.x;                              //РџРѕР»СѓС‡РµРЅРёСЏ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
                 int y = event.mouse.y;
 
-                if (x >= b_accept.x && x < (b_accept.x + b_accept.width_b) && y >= b_accept.y && y < (b_accept.y + b_accept.height_b))    //Проверка совпадает ли координаты мыши с кнопкой (кароче нажатие кнопки)
+                if (x >= b_accept.x && x < (b_accept.x + b_accept.width_b) && y >= b_accept.y && y < (b_accept.y + b_accept.height_b))    //РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґР°РµС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё СЃ РєРЅРѕРїРєРѕР№ (РєР°СЂРѕС‡Рµ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё)
                 {
                     open_setting = false;
                     W = resolution[i][0];
@@ -119,7 +156,7 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
                     return true;
                 }       
 
-                if (x >= b_right.x && x < (b_right.x + b_right.width_b) && y >= b_right.y && y < (b_right.y + b_right.height_b))    //Проверка совпадает ли координаты мыши с кнопкой (кароче нажатие кнопки)
+                if (x >= b_right.x && x < (b_right.x + b_right.width_b) && y >= b_right.y && y < (b_right.y + b_right.height_b))    //РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґР°РµС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё СЃ РєРЅРѕРїРєРѕР№ (РєР°СЂРѕС‡Рµ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё)
                 {
                     if (variant_size >= 0 && variant_size < 2)
                     {
@@ -128,7 +165,7 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
                     }
                 }
 
-                if (x >= b_left.x && x < (b_left.x + b_left.width_b) && y >= b_left.y && y < (b_left.y + b_left.height_b))    //Проверка совпадает ли координаты мыши с кнопкой (кароче нажатие кнопки)
+                if (x >= b_left.x && x < (b_left.x + b_left.width_b) && y >= b_left.y && y < (b_left.y + b_left.height_b))    //РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґР°РµС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё СЃ РєРЅРѕРїРєРѕР№ (РєР°СЂРѕС‡Рµ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё)
                 {
                     if (variant_size > 0 && variant_size <= 2)
                     {
@@ -141,7 +178,7 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
         }
 
 
-        if (event.type == ALLEGRO_EVENT_TIMER)          //Таймер
+        if (event.type == ALLEGRO_EVENT_TIMER)          //РўР°Р№РјРµСЂ
         {
             i = variant_size;
             
@@ -172,19 +209,19 @@ bool setting(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_q
 
 
 
-//Игровой процес (сама Судоку)        параметры(экран, события, таймер (для ФПС нужен))
+//РРіСЂРѕРІРѕР№ РїСЂРѕС†РµСЃ (СЃР°РјР° РЎСѓРґРѕРєСѓ)        РїР°СЂР°РјРµС‚СЂС‹(СЌРєСЂР°РЅ, СЃРѕР±С‹С‚РёСЏ, С‚Р°Р№РјРµСЂ (РґР»СЏ Р¤РџРЎ РЅСѓР¶РµРЅ))
 
 int game(const ALLEGRO_DISPLAY* display, const ALLEGRO_EVENT_QUEUE* event_queue)
 {
-    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", 25, 0);      //Шрифт (при ошибке добавления шрифта возвращает -2)
+    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", 25, 0);      //РЁСЂРёС„С‚ (РїСЂРё РѕС€РёР±РєРµ РґРѕР±Р°РІР»РµРЅРёСЏ С€СЂРёС„С‚Р° РІРѕР·РІСЂР°С‰Р°РµС‚ -2)
     if (!font) return -2;
 
-    ALLEGRO_BITMAP* background = al_load_bitmap("image/background.png");    //Задний фонн (при ошибке возвращает -3)
+    ALLEGRO_BITMAP* background = al_load_bitmap("image/background.png");    //Р—Р°РґРЅРёР№ С„РѕРЅРЅ (РїСЂРё РѕС€РёР±РєРµ РІРѕР·РІСЂР°С‰Р°РµС‚ -3)
     if (!background) exit(-3);
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / FPS);
     
-    struct BUTTON clue = { "image/clue.png", W / 8, H / 8, 0,0, show };   //Кнопка подсказки
+    struct BUTTON clue = { "image/clue.png", W / 8, H / 8, 0,0, show };   //РљРЅРѕРїРєР° РїРѕРґСЃРєР°Р·РєРё
     clue.x = W - clue.width_b - 10;
     clue.y = H - clue.height_b - 25;
 
@@ -192,56 +229,56 @@ int game(const ALLEGRO_DISPLAY* display, const ALLEGRO_EVENT_QUEUE* event_queue)
     b_setting.x = W - b_setting.width_b - 5;
     b_setting.y = 5;
 
-    const int total_clue = 3;                                               //Всего подсказок (статическое значение)
-    int count_clue = 3;                                                     //Кол-во подсказок
-    char count_clue_str[10];                                                //Для конвертации с int на char(строку кароче)
+    const int total_clue = 3;                                               //Р’СЃРµРіРѕ РїРѕРґСЃРєР°Р·РѕРє (СЃС‚Р°С‚РёС‡РµСЃРєРѕРµ Р·РЅР°С‡РµРЅРёРµ)
+    int count_clue = 3;                                                     //РљРѕР»-РІРѕ РїРѕРґСЃРєР°Р·РѕРє
+    char count_clue_str[10];                                                //Р”Р»СЏ РєРѕРЅРІРµСЂС‚Р°С†РёРё СЃ int РЅР° char(СЃС‚СЂРѕРєСѓ РєР°СЂРѕС‡Рµ)
 
 
-    int count_heart = 3;                                                    //Всего сердец
+    int count_heart = 3;                                                    //Р’СЃРµРіРѕ СЃРµСЂРґРµС†
     int heart_width = W / 9;                            
     int heart_height = H / 9;
    
     bool change_set = false;
 
-    struct ICON hearts[3];                                                //Иконки сердец
+    struct ICON hearts[3];                                                //РРєРѕРЅРєРё СЃРµСЂРґРµС†
     for (int i = 0; i < 3; i++)
     {
-        hearts[i] = (struct ICON){"image/heart.png", heart_width, heart_height, W - heart_width - 20, 30 + (i*heart_height+15), show};  //Сердца в массив закидываем
+        hearts[i] = (struct ICON){"image/heart.png", heart_width, heart_height, W - heart_width - 20, 30 + (i*heart_height+15), show};  //РЎРµСЂРґС†Р° РІ РјР°СЃСЃРёРІ Р·Р°РєРёРґС‹РІР°РµРј
     }
     
 
  
     bool finish = false;
-    al_start_timer(timer);          //Запуск таймера (для ФПС)
+    al_start_timer(timer);          //Р—Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР° (РґР»СЏ Р¤РџРЎ)
     while (!finish)
     {
 
 
-        ALLEGRO_EVENT event;            //Переменная хранящее наше событие, то что мы делаем
+        ALLEGRO_EVENT event;            //РџРµСЂРµРјРµРЅРЅР°СЏ С…СЂР°РЅСЏС‰РµРµ РЅР°С€Рµ СЃРѕР±С‹С‚РёРµ, С‚Рѕ С‡С‚Рѕ РјС‹ РґРµР»Р°РµРј
 
         
 
         al_wait_for_event(event_queue, &event);
 
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)                  //проверка на закрытие окна
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)                  //РїСЂРѕРІРµСЂРєР° РЅР° Р·Р°РєСЂС‹С‚РёРµ РѕРєРЅР°
         {
             finish = true;
         }
 
-        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)              //Проверка на отпускания кнопки мыши
+        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)              //РџСЂРѕРІРµСЂРєР° РЅР° РѕС‚РїСѓСЃРєР°РЅРёСЏ РєРЅРѕРїРєРё РјС‹С€Рё
         {
 
            
-                if (event.mouse.button & 1)                                                     //нажатие ЛКМ (1 - ЛКМ, 2 - ПКМ, 3 - колесико)
+                if (event.mouse.button & 1)                                                     //РЅР°Р¶Р°С‚РёРµ Р›РљРњ (1 - Р›РљРњ, 2 - РџРљРњ, 3 - РєРѕР»РµСЃРёРєРѕ)
                 {
-                    int x = event.mouse.x;                              //Получения координаты мыши
+                    int x = event.mouse.x;                              //РџРѕР»СѓС‡РµРЅРёСЏ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
                     int y = event.mouse.y;
 
                     if (count_clue > 0 && count_clue <= 3)
                     {
-                        if (x >= clue.x && x < (clue.x + clue.width_b) && y >= clue.y && y < (clue.y + clue.height_b))    //Проверка совпадает ли координаты мыши с кнопкой (кароче нажатие кнопки)
+                        if (x >= clue.x && x < (clue.x + clue.width_b) && y >= clue.y && y < (clue.y + clue.height_b))    //РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґР°РµС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё СЃ РєРЅРѕРїРєРѕР№ (РєР°СЂРѕС‡Рµ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё)
                         {
-                            count_clue -= 1;        //Уменьшение кол-во подсказок на 1
+                            count_clue -= 1;        //РЈРјРµРЅСЊС€РµРЅРёРµ РєРѕР»-РІРѕ РїРѕРґСЃРєР°Р·РѕРє РЅР° 1
                         }
                     }
                     if (x >= b_setting.x && x < (b_setting.x + b_setting.width_b) && y >= b_setting.y && y < (b_setting.y + b_setting.height_b))
@@ -254,17 +291,17 @@ int game(const ALLEGRO_DISPLAY* display, const ALLEGRO_EVENT_QUEUE* event_queue)
             
         }
 
-        if (event.type == ALLEGRO_EVENT_TIMER)          //Таймер
+        if (event.type == ALLEGRO_EVENT_TIMER)          //РўР°Р№РјРµСЂ
         {
             
 
-            sprintf(count_clue_str, "%d/%d", count_clue, total_clue);                                                                       //Конвертация с int на char (string)
-            al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, W, H, 0);      //Отрисовка заднего фона
-            al_draw_text(font, al_map_rgb(0, 0, 0), clue.x+20, clue.y - 50, 0, count_clue_str);                                             //Отрисовка текста (кол-ва подсказок)
-            clue.show(clue.name_file, clue.width_b, clue.height_b, clue.x, clue.y);                                                         //Показ кнопки подсказки
+            sprintf(count_clue_str, "%d/%d", count_clue, total_clue);                                                                       //РљРѕРЅРІРµСЂС‚Р°С†РёСЏ СЃ int РЅР° char (string)
+            al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, W, H, 0);      //РћС‚СЂРёСЃРѕРІРєР° Р·Р°РґРЅРµРіРѕ С„РѕРЅР°
+            al_draw_text(font, al_map_rgb(0, 0, 0), clue.x+20, clue.y - 50, 0, count_clue_str);                                             //РћС‚СЂРёСЃРѕРІРєР° С‚РµРєСЃС‚Р° (РєРѕР»-РІР° РїРѕРґСЃРєР°Р·РѕРє)
+            clue.show(clue.name_file, clue.width_b, clue.height_b, clue.x, clue.y);                                                         //РџРѕРєР°Р· РєРЅРѕРїРєРё РїРѕРґСЃРєР°Р·РєРё
             b_setting.show(b_setting.name_file, b_setting.width_b, b_setting.height_b, b_setting.x, b_setting.y);
             
-          
+            draw_area();
           
          
             al_flip_display();
@@ -286,7 +323,7 @@ int game(const ALLEGRO_DISPLAY* display, const ALLEGRO_EVENT_QUEUE* event_queue)
         }
 
     }
-    al_stop_timer(timer);           //Остановка таймера
+    al_stop_timer(timer);           //РћСЃС‚Р°РЅРѕРІРєР° С‚Р°Р№РјРµСЂР°
     al_destroy_timer(timer);
     al_destroy_font(font);
     al_destroy_bitmap(background);
@@ -294,30 +331,26 @@ int game(const ALLEGRO_DISPLAY* display, const ALLEGRO_EVENT_QUEUE* event_queue)
 }
 
 
-//Функция меню 
+//Р¤СѓРЅРєС†РёСЏ РјРµРЅСЋ 
 int menu(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_queue)
 {
 
-    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", SIZE_FONT, 0);                       //Шрифт
+    ALLEGRO_FONT* font = al_load_ttf_font("Tenada.ttf", SIZE_FONT, 0);                       //РЁСЂРёС„С‚
     if (!font) return -2;
 
-    ALLEGRO_BITMAP* background = al_load_bitmap("image/menu_bg.png");                       //Задний фон
+    ALLEGRO_BITMAP* background = al_load_bitmap("image/menu_bg.png");                       //Р—Р°РґРЅРёР№ С„РѕРЅ
     if (!background) exit(-3);
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / FPS);
+    al_register_event_source(event_queue, al_get_timer_event_source(timer));                //Р—Р°РіСЂСѓР·РєР° СЃРѕР±С‹С‚РёСЏ С‚Р°Р№РјРµСЂР°
 
-    al_register_event_source(event_queue, al_get_mouse_event_source());                     //Загрузка события мышки
-    al_register_event_source(event_queue, al_get_display_event_source(display));            //Загрузка события окна
-    al_register_event_source(event_queue, al_get_timer_event_source(timer));                //Загрузка события таймера
-
-
-    struct BUTTON b_start = { "image/start.png", W / 4, H / 4, 0, 0, show };              //Создание кнопки
+    struct BUTTON b_start = { "image/start.png", W / 4, H / 4, 0, 0, show };              //РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё
     b_start.x = W / 2 - b_start.width_b / 2;
     b_start.y = H / 1.25 - b_start.height_b / 2;
 
    
 
-    char text[] = "Sudoku";                                                                 //Текст который выведится на экран (НАЗВАНИЕ ИГРЫ)
+    char text[] = "Sudoku";                                                                 //РўРµРєСЃС‚ РєРѕС‚РѕСЂС‹Р№ РІС‹РІРµРґРёС‚СЃСЏ РЅР° СЌРєСЂР°РЅ (РќРђР—Р’РђРќРР• РР“Р Р«)
     int text_width = al_get_text_width(font, text);
 
     bool finish = false;
@@ -336,15 +369,18 @@ int menu(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_queue
 
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             finish = true;
+            al_destroy_font(font);
+
+            al_destroy_bitmap(background);
         }
-        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)                                  //Проверка на нажатие кнопки мыши
+        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)                                  //РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё РјС‹С€Рё
         {
-            if (event.mouse.button & 1)                                                     //нажатие ЛКМ (1 - ЛКМ, 2 - ПКМ, 3 - колесико)
+            if (event.mouse.button & 1)                                                     //РЅР°Р¶Р°С‚РёРµ Р›РљРњ (1 - Р›РљРњ, 2 - РџРљРњ, 3 - РєРѕР»РµСЃРёРєРѕ)
             {
-                int x = event.mouse.x;                              //Получения координат мыши
+                int x = event.mouse.x;                              //РџРѕР»СѓС‡РµРЅРёСЏ РєРѕРѕСЂРґРёРЅР°С‚ РјС‹С€Рё
                 int y = event.mouse.y;
 
-                if (x >= b_start.x && x < (b_start.x + b_start.width_b) && y >= b_start.y && y < (b_start.y + b_start.height_b))    //Проверка совпадает ли координаты мыши с кнопкой (кароче нажатие кнопки)
+                if (x >= b_start.x && x < (b_start.x + b_start.width_b) && y >= b_start.y && y < (b_start.y + b_start.height_b))    //РџСЂРѕРІРµСЂРєР° СЃРѕРІРїР°РґР°РµС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё СЃ РєРЅРѕРїРєРѕР№ (РєР°СЂРѕС‡Рµ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё)
                 {
                     start_game = true;
                     finish = true;
@@ -353,29 +389,33 @@ int menu(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_queue
         }
         if (event.type == ALLEGRO_EVENT_TIMER)
         {
-            al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, W, H, 0);      //Отрисовка заднего фона
+            al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, W, H, 0);      //РћС‚СЂРёСЃРѕРІРєР° Р·Р°РґРЅРµРіРѕ С„РѕРЅР°
 
-            b_start.show(b_start.name_file, b_start.width_b, b_start.height_b, b_start.x, b_start.y);                                       //Показ кнопки старта
+            b_start.show(b_start.name_file, b_start.width_b, b_start.height_b, b_start.x, b_start.y);                                       //РџРѕРєР°Р· РєРЅРѕРїРєРё СЃС‚Р°СЂС‚Р°
             
 
-            al_draw_text(font, al_map_rgb(0, 0, 0), (W - text_width) / 2, H / 4, 0, text);                                                     //Отображение текста - название игры
+            al_draw_text(font, al_map_rgb(0, 0, 0), (W - text_width) / 2, H / 4, 0, text);                                                     //РћС‚РѕР±СЂР°Р¶РµРЅРёРµ С‚РµРєСЃС‚Р° - РЅР°Р·РІР°РЅРёРµ РёРіСЂС‹
 
-            al_flip_display();                                                                                                              //Обновления экрана
+            al_flip_display();                                                                                                              //РћР±РЅРѕРІР»РµРЅРёСЏ СЌРєСЂР°РЅР°
         }
 
         if (start_game)
-            game(display, event_queue);                                                                                              //Переход к игре
+        {
+           
+           
+            al_destroy_font(font);
 
+            al_destroy_bitmap(background);
+            game(display, event_queue);                                                                                              //РџРµСЂРµС…РѕРґ Рє РёРіСЂРµ
+        }
     }
 
     
-    //Сброс всего, уничтожение 
+    //РЎР±СЂРѕСЃ РІСЃРµРіРѕ, СѓРЅРёС‡С‚РѕР¶РµРЅРёРµ 
     al_stop_timer(timer);
 
     al_destroy_timer(timer);
-    al_destroy_font(font);
    
-    al_destroy_bitmap(background);
     
     return 0;
 }
@@ -385,32 +425,43 @@ int menu(const ALLEGRO_DISPLAY* display, const  ALLEGRO_EVENT_QUEUE* event_queue
 int main(void)
 {
     al_init();
-    al_init_font_addon();       //Шрифт
-    al_init_ttf_addon();        //Хз, но для шрифта
-    al_init_image_addon();      //Изображения
-    al_install_mouse();         //Мышка
+    al_init_font_addon();       //РЁСЂРёС„С‚
+    al_init_ttf_addon();        //РҐР·, РЅРѕ РґР»СЏ С€СЂРёС„С‚Р°
+    al_init_image_addon();      //РР·РѕР±СЂР°Р¶РµРЅРёСЏ
+    al_install_mouse();         //РњС‹С€РєР°
+    al_init_primitives_addon();
 
-    const ALLEGRO_DISPLAY* display = al_create_display(W, H);         //Создание окна W*H
+    const ALLEGRO_DISPLAY* display = al_create_display(W, H);         //РЎРѕР·РґР°РЅРёРµ РѕРєРЅР° W*H
     if (!display) return -1;
 
-    al_set_window_title(display, "Sudoku");                     //Название окна
+    al_set_window_title(display, "Sudoku");                     //РќР°Р·РІР°РЅРёРµ РѕРєРЅР°
 
 
-    const ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();     //События
+    const ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();     //РЎРѕР±С‹С‚РёСЏ
+
+
+    
+
+    al_register_event_source(event_queue, al_get_mouse_event_source());                     //Р—Р°РіСЂСѓР·РєР° СЃРѕР±С‹С‚РёСЏ РјС‹С€РєРё
+    al_register_event_source(event_queue, al_get_display_event_source(display));            //Р—Р°РіСЂСѓР·РєР° СЃРѕР±С‹С‚РёСЏ РѕРєРЅР°
+
+
 
     menu(display, event_queue);
 
 
-    //Уничтожение окна и событий
+    //РЈРЅРёС‡С‚РѕР¶РµРЅРёРµ РѕРєРЅР° Рё СЃРѕР±С‹С‚РёР№
     
     al_uninstall_mouse(); // Deinitialize mouse 
    
     al_shutdown_image_addon();    // Deinitialize image addon
     al_shutdown_ttf_addon();      // Deinitialize TrueType font addon
     al_shutdown_font_addon();     // Deinitialize font addon
+    al_shutdown_primitives_addon();
 
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);
+
 
 
     return 0;
